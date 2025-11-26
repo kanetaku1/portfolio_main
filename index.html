@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金子拓朗 | プロフィール</title>
+    <title>Golcha Works | 金子拓朗 - Web開発・システム開発</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght=700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght=700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
+
 <body>
     <header>
         <div class="container">
-            <h1 class="logo">Golcha Works</h1>
+            <h1 class="logo">
+                <span class="logo-code">&lt;</span>Golcha Works<span class="logo-code">/&gt;</span>
+            </h1>
             <nav>
                 <ul>
                     <li><a href="#about">About</a></li>
@@ -25,31 +36,59 @@
 
     <section id="hero">
         <div class="container">
-            <img src="img/IMG_0987_Original.JPG" alt="金子拓朗のプロフィール写真" class="profile-photo">
-            <h2>情報技術で日々をより良く。</h2>
-            <p class="tagline">AIやIoTで町の活性化や事業の発展を図ります！！</p>
-            <p>現在は具体的なビジネスプランを作成すべく、あらゆるイベントに参加しています</p>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">Web Developer & System Engineer</div>
+                    <h2 class="hero-title">
+                        <span class="code-accent">const</span> 
+                        <span class="variable-name">golchaWorks</span> 
+                        <span class="operator">=</span> 
+                        <span class="string">"情報技術で日々をより良く"</span>
+                    </h2>
+                    <div class="hero-image">
+                        <div class="image-wrapper">
+                            <img src="img/IMG_0987_Original.JPG" alt="金子拓朗のプロフィール写真" class="profile-photo">
+                            <div class="photo-frame"></div>
+                        </div>
+                    </div>
+                    <p class="tagline">コーディングでWebページを作成し、システム開発で価値を創造する</p>
+                    <p class="hero-description">AIやIoTを活用した町の活性化や事業発展を目指し、日々新しい技術と向き合っています。</p>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="about" class="bg-light">
         <div class="container">
-            <h2>About me</h2>
-            <h3>金子拓朗 (Kaneko Takuro)</h3>
-            <p>長岡技術科学大学工学部情報・経営システム工学科に在学中。岐阜県出身。AIやIT技術を活用し、日常生活をより豊かにすることを目指して学んでいます。特に現在は、町おこしの分野に興味があり、情報と経営の面からのアプローチを模索中です。</p>
-            <div class="personal-info">
-                <div class="personal-info-left">
-                    <h4>My Hobbies</h4>
-                    <ul>
-                        <li>野球</li>
-                        <li>読書</li>
-                        <li>映画鑑賞</li>
-                        <li>自転車旅</li>
-                    </ul>
+            <h2><span class="section-number">01.</span> About me</h2>
+            <div class="about-content">
+                <div class="about-main">
+                    <h3>金子拓朗 <span class="name-en">(Kaneko Takuro)</span></h3>
+                    <div class="about-description">
+                        <p><strong>Golcha Works</strong>は、Webページ作成とシステム開発を専門とする開発者です。</p>
+                        <p>長岡技術科学大学工学部情報・経営システム工学科に在学中。岐阜県出身。AIやIT技術を活用し、日常生活をより豊かにすることを目指して学んでいます。特に現在は、町おこしの分野に興味があり、情報と経営の面からのアプローチを模索中です。</p>
+                        <p>コーディングを通じて、クライアントのビジネスを成長させるWebサイトや、効率的なシステムを開発しています。最新の技術トレンドを常に追い求め、実践的なソリューションを提供します。</p>
+                    </div>
                 </div>
-                <div class="personal-info-right">
-                    <h4>My Motto</h4>
-                    <p><strong>「人生は円である」</strong></p>
+                <div class="personal-info">
+                    <div class="info-card">
+                        <h4><i class="fas fa-heart"></i> My Hobbies</h4>
+                        <ul>
+                            <li><i class="fas fa-baseball-ball"></i> 野球</li>
+                            <li><i class="fas fa-book"></i> 読書</li>
+                            <li><i class="fas fa-film"></i> 映画鑑賞</li>
+                            <li><i class="fas fa-bicycle"></i> 自転車旅</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h4><i class="fas fa-quote-left"></i> My Motto</h4>
+                        <p class="motto"><strong>人生は円である</strong></p>
+                        <p class="motto"><strong>Stay Hungry, Stay Foolish</strong></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,7 +96,8 @@
 
     <section id="skills">
         <div class="container">
-            <h2>Skills</h2>
+            <h2><span class="section-number">02.</span> Skills</h2>
+            <p class="section-intro">Web開発からIoTまで、幅広い技術スタックに対応しています。</p>
             <div class="skills-grid">
                 <div class="skill-category">
                     <h3>Programming Languages</h3>
@@ -65,7 +105,7 @@
                         <li>Python</li>
                         <li>HTML / CSS</li>
                         <li>Java</li>
-                        <li>C</li>
+                        <li>React</li>
                     </ul>
                 </div>
                 <div class="skill-category">
@@ -90,49 +130,262 @@
 
     <section id="projects">
         <div class="container">
-            <h2>Projects</h2>
-            <p>PythonやNext.jsを使ったWebアプリ開発、IoTデバイスの制御など、幅広く取り組んでいます。</p>
-            <a href="https://github.com/kanetaku1/portfolio" target="_blank" class="btn btn-primary">
-                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHubアイコン" class="github-icon">
-                GitHub Portfolio Repository
-            </a>
+            <h2><span class="section-number">03.</span> Projects</h2>
+            <p class="section-intro">PythonやNext.jsを使ったWebアプリ開発、IoTデバイスの制御など、幅広く取り組んでいます。</p>
+            
+            <div class="projects-grid" id="projects-grid">
+                <!-- プロジェクトカードは手動で追加するか、JavaScriptで動的に生成 -->
+                <!-- プロジェクトを追加する際は、以下のテンプレートを参考にしてください -->
+                <!--
+                <div class="project-card">
+                    <div class="project-media">
+                        <img src="img/projects/project-image.jpg" alt="プロジェクト画像">
+                        または
+                        <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="project-content">
+                        <h3>プロジェクト名</h3>
+                        <p class="project-description">プロジェクトの説明がここに入ります。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Next.js</span>
+                            <span class="tech-badge">TypeScript</span>
+                            <span class="tech-badge">Docker</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/project" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://demo-url.com" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="https://youtube.com/watch?v=VIDEO_ID" class="project-link" target="_blank"><i class="fab fa-youtube"></i> Video</a>
+                        </div>
+                    </div>
+                </div>
+                -->
+                
+                <!-- jobsta0 プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <div class="project-placeholder">
+                            <i class="fas fa-briefcase"></i>
+                            <p>Jobsta</p>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Jobsta</h3>
+                        <p class="project-description">就職活動支援システム。求人情報の管理や応募状況の追跡が可能です。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">TypeScript</span>
+                            <span class="tech-badge">Next.js</span>
+                            <span class="tech-badge">Web App</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/jobsta0" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- quiz プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <div class="project-placeholder">
+                            <i class="fas fa-question-circle"></i>
+                            <p>Quiz App</p>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Quiz Application</h3>
+                        <p class="project-description">クイズアプリケーション。問題の出題と回答管理機能を実装。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">Application</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/quiz" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bicycle プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <img src="https://raw.githubusercontent.com/kanetaku1/portfolio/main/bicycle/screenshot.png" 
+                            alt="Bicycle Project" 
+                            onerror="this.parentElement.innerHTML='<div class=\'project-placeholder\'><i class=\'fas fa-bicycle\'></i><p>Bicycle</p></div>'">
+                    </div>
+                    <div class="project-content">
+                        <h3>Bicycle</h3>
+                        <p class="project-description">自転車愛好家向けの情報共有プラットフォーム。自転車の情報を共有し、コミュニティを形成できます。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">HTML</span>
+                            <span class="tech-badge">CSS</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Node.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/portfolio/tree/main/bicycle" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://kanetaku1.github.io/portfolio/bicycle" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gym プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <img src="https://raw.githubusercontent.com/kanetaku1/portfolio/main/gym/screenshot.png" 
+                            alt="Gym Project" 
+                            onerror="this.parentElement.innerHTML='<div class=\'project-placeholder\'><i class=\'fas fa-dumbbell\'></i><p>Gym</p></div>'">
+                    </div>
+                    <div class="project-content">
+                        <h3>Gym</h3>
+                        <p class="project-description">フィットネス愛好家向けのトレーニング管理アプリケーション。トレーニングプランの作成や進捗管理が可能です。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">Redux</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">MongoDB</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/portfolio/tree/main/gym" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://kanetaku1.github.io/portfolio/gym" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- iSara プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <img src="https://raw.githubusercontent.com/kanetaku1/portfolio/main/iSara/screenshot.png" 
+                            alt="iSara Project" 
+                            onerror="this.parentElement.innerHTML='<div class=\'project-placeholder\'><i class=\'fas fa-graduation-cap\'></i><p>iSara</p></div>'">
+                    </div>
+                    <div class="project-content">
+                        <h3>iSara</h3>
+                        <p class="project-description">フリーランス向けの案件管理システム。オンライン教育プラットフォームとして、様々なコースを受講しスキル向上が可能です。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Vue.js</span>
+                            <span class="tech-badge">Vuex</span>
+                            <span class="tech-badge">Firebase</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/portfolio/tree/main/iSara" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://kanetaku1.github.io/portfolio/iSara" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artist Website プロジェクト -->
+                <div class="project-card">
+                    <div class="project-media">
+                        <img src="https://raw.githubusercontent.com/kanetaku1/artist-website/main/screenshot.png" 
+                            alt="Artist Website" 
+                            onerror="this.parentElement.innerHTML='<div class=\'project-placeholder\'><i class=\'fas fa-palette\'></i><p>Artist Website</p></div>'">
+                    </div>
+                    <div class="project-content">
+                        <h3>Artist Website</h3>
+                        <p class="project-description">アーティストの作品展示および販売サイト。作品の展示や販売が可能なポートフォリオサイトです。</p>
+                        <div class="project-tech">
+                            <span class="tech-badge">Django</span>
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">PostgreSQL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/kanetaku1/artist-website" class="project-link" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="https://v0-portfolio-website-design-ten-eta.vercel.app" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="github-link-section">
+                <a href="https://github.com/kanetaku1" target="_blank" class="btn btn-primary btn-github">
+                    <i class="fab fa-github"></i>
+                    View All on GitHub
+                </a>
+            </div>
         </div>
     </section>
 
     <section id="blog" class="bg-light">
         <div class="container">
-            <h2>Blog</h2>
-            <p>日常や学習の記録、体験談などを発信していきます。</p>
-            <div class="blog-preview">
-                <div class="blog-post-card">
-                    <h3>
-                        <a href="blog/2023_4_cherry-blossom.html">私のお気に入り、春色の散歩道</a>
-                    </h3>
-                    <p>地元の川辺で見つけた、心やすらぐ桜景色について書きました。</p>
-                    <span class="date">2023/04</span>
+            <h2><span class="section-number">04.</span> Blog</h2>
+            <p class="section-intro">旅日記やシステム開発日記、日常の記録などを発信していきます。</p>
+            <div class="blog-categories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="travel">旅日記</button>
+                <button class="category-btn" data-category="dev">開発日記</button>
+                <button class="category-btn" data-category="other">その他</button>
+            </div>
+            <div class="blog-preview" id="blog-preview">
+                <!-- ブログ記事はJavaScriptでMarkdownから自動生成 -->
+                <div class="blog-post-card" data-category="travel">
+                    <div class="blog-thumbnail">
+                        <img src="img/DSC_0313.JPG" alt="ブログサムネイル">
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">旅日記</span>
+                        <h3>
+                            <a href="blog/2023_4_cherry-blossom.html">私のお気に入り、春色の散歩道</a>
+                        </h3>
+                        <p>地元の川辺で見つけた、心やすらぐ桜景色について書きました。</p>
+                        <div class="blog-meta">
+                            <span class="date"><i class="far fa-calendar"></i> 2023/04</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <a href="#" class="btn btn-secondary">Read More Blog Posts</a>
-            <!-- <p class="note">※ブログ記事はデモのため、実際の記事は後から追加・リンクしてください。</p> -->
+            <a href="#" class="btn btn-secondary" id="load-more-blogs">Read More Blog Posts</a>
         </div>
     </section>
 
     <section id="contact">
         <div class="container">
-            <h2>Contact</h2>
-            <p>ご連絡は下記メールアドレスまたはSNSからどうぞ。</p>
-            <p class="contact-email">Email: <a href="mailto:goldchild960@gmail.com">goldchild960@gmail.com</a></p>
-            <div class="social-links">
-                <a href="https://twitter.com/Golcha_job" target="_blank" class="social-btn x-btn">X</a>
-                <a href="https://www.instagram.com/taku_010111/" target="_blank" class="social-btn instagram-btn">Instagram</a>
+            <h2><span class="section-number">05.</span> Contact</h2>
+            <p class="section-intro">ご連絡は下記メールアドレスまたはSNSからどうぞ。お気軽にお問い合わせください。</p>
+            <div class="contact-content">
+                <div class="contact-email-section">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:goldchild960@gmail.com" class="contact-email">goldchild960@gmail.com</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=100079619175981" target="_blank" 
+                       class="social-btn facebook-btn" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="https://twitter.com/GolchaWorks" target="_blank" 
+                       class="social-btn x-btn" aria-label="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                        <span>X</span>
+                    </a>
+                    <a href="https://www.instagram.com/taku_010111/" target="_blank"
+                       class="social-btn instagram-btn" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://github.com/kanetaku1" target="_blank"
+                       class="social-btn github-btn" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="mailto:goldchild960@gmail.com" 
+                       class="social-btn email-btn" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 金子拓朗</p>
+            <div class="footer-content">
+                <p>&copy; 2025 <strong>Golcha Works</strong> - 金子拓朗</p>
+                <p class="footer-tagline">Code. Create. Innovate.</p>
+            </div>
         </div>
     </footer>
+
+    <script src="js/blog-loader.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>
