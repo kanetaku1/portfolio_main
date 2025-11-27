@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINEログイン機能の実装完了</title>
+    <style>
+        /* CSS (デザイン) の設定 */
+        body {
+            font-family: 'Helvetica Neue', 'Arial', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #fcfcfa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #4a4a4a;
+            margin-bottom: 0;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #4a4a4a;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1em;
+            color: #777;
+            margin-top: 5px;
+            margin-bottom: 40px;
+        }
+        p {
+            font-size: 1em;
+            text-align: left;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0 10px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .caption {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #d63384;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            border-left: 4px solid #007bff;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            margin: 15px 0;
+            padding-left: 15px;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        strong {
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>LINE ログイン機能の実装完了</h1>
+            <p class="subtitle">Auth0経由のLINEログインをSupabase Third-Party Authと連携させ、ユーザー認証システムを構築しました。</p>
+        </header>
+
+        <main>
+            <p>Jobsta アプリケーションに LINE ログイン機能を実装し、Auth0 と Supabase の Third-Party Auth を連携させることで、セキュアな認証システムを構築しました。</p>
+
+            <h2>プロジェクト概要</h2>
+            
+            <p><strong>Jobsta（ジョブスタ）</strong>は、友達と一緒に応募できるソーシャル型短期バイトマッチングアプリです。LINE 公式アカウントや Discord と連携し、LINE ログインによる Web アプリケーションでの運営を目指しています。</p>
+
+            <h3>主な機能</h3>
+            <ul>
+                <li>友達と一緒にバイトに応募できる</li>
+                <li>LINE ログインによる簡単な認証</li>
+                <li>グループ機能による求人共有</li>
+                <li>信頼できる求人情報の提供</li>
+            </ul>
+
+            <h2>技術スタック</h2>
+            <ul>
+                <li><strong>フレームワーク</strong>: Next.js 14 (App Router)</li>
+                <li><strong>言語</strong>: TypeScript</li>
+                <li><strong>データベース</strong>: PostgreSQL (Supabase)</li>
+                <li><strong>認証</strong>: Supabase Third-Party Auth + Auth0</li>
+                <li><strong>ORM</strong>: Prisma</li>
+                <li><strong>スタイリング</strong>: TailwindCSS</li>
+                <li><strong>その他</strong>: LINE Login API (Auth0 経由)</li>
+            </ul>
+
+            <h2>開発過程</h2>
+
+            <h3>フェーズ 1: 設計と要件定義</h3>
+
+            <h3>認証フローの設計</h3>
+            <p>LINE ログインを実装するにあたり、以下の認証フローを設計しました：</p>
+            <pre>ユーザー
+  ↓
+LINE Developers (LINE Login)
+  ↓
+Auth0 (LINE Social Connection)
+  ↓
+Auth0 ID Token を取得
+  ↓
+クッキーに保存 (auth0_id_token)
+  ↓
+Supabase Client に accessToken として提供
+  ↓
+Supabase Third-Party Auth がトークンを検証
+  ↓
+Postgres の authenticated ロールを割り当て
+  ↓
+Supabase Data API / Storage / Realtime にアクセス可能</pre>
+
+            <h3>技術的な課題</h3>
+            <ol>
+                <li>
+                    <strong>Supabase の Third-Party Auth 機能の理解</strong>
+                    <ul>
+                        <li>Supabase Auth のユーザーとして登録されるわけではない</li>
+                        <li>Auth0 の JWT トークンを直接 Supabase API で使用する</li>
+                        <li><code>supabase.auth.getUser()</code>は動作しない</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>環境変数の管理</strong>
+                    <ul>
+                        <li>クライアント側とサーバー側で異なる環境変数が必要</li>
+                        <li><code>NEXT_PUBLIC_</code>プレフィックスの理解</li>
+                        <li><code>.env</code>と<code>.env.local</code>の違いと優先順位</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>フェーズ 2: 実装</h3>
+
+            <h3>1. LINE ログインページの実装</h3>
+            <p><code>src/app/login/page.tsx</code>で、Auth0 の認証 URL を直接構築し、LINE ログインを開始する実装を行いました。</p>
+            <pre>const handleLineLogin = async () => {
+  const auth0Domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN
+  const auth0ClientId = process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID
+  const redirectUri = `${window.location.origin}/auth/callback`
+
+  // Auth0 の認証 URL を構築（LINE ログイン用）
+  const auth0AuthUrl = `https://${auth0Domain}/authorize?` +
+    `response_type=code&` +
+    `client_id=${auth0ClientId}&` +
+    `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+    `scope=openid profile email&` +
+    `connection=line` // LINE 接続を指定
+
+  window.location.href = auth0AuthUrl
+}</pre>
+
+            <h3>2. コールバック処理の実装</h3>
+            <p><code>src/app/auth/callback/route.ts</code>で、Auth0 から取得した認証コードをトークンに交換し、クッキーに保存する処理を実装しました。</p>
+            <pre>// Auth0 からトークンを交換
+const tokenResponse = await fetch(`https://${auth0Domain}/oauth/token`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    grant_type: 'authorization_code',
+    client_id: auth0ClientId,
+    client_secret: auth0ClientSecret,
+    code: code,
+    redirect_uri: redirectUri,
+  }),
+})
+
+const tokenData = await tokenResponse.json()
+const idToken = tokenData.id_token
+
+// クッキーに保存
+response.cookies.set('auth0_id_token', idToken, {
+  httpOnly: false, // クライアントサイドで読み取れるようにする
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax',
+  maxAge: 60 * 60, // 1 時間
+  path: '/',
+})
+
+// Prisma の User テーブルに同期
+await syncUserFromAuth0(idToken)</pre>
+
+            <h3>3. Supabase クライアントの設定</h3>
+            <p><code>src/lib/supabase/client.ts</code>で、Auth0 の ID トークンを Supabase クライアントに提供する実装を行いました。</p>
+            <pre>export function createClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      // Auth0 の Third-Party Auth を使用する場合、ID トークンを非同期関数として提供
+      accessToken: async () => {
+        return getAuth0IdToken() // クッキーから取得
+      },
+    }
+  )
+}</pre>
+
+            <h3>4. ユーザー情報の同期</h3>
+            <p><code>src/lib/auth/sync-user.ts</code>で、Auth0 の ID トークンからユーザー情報を取得し、Prisma の User テーブルに同期する処理を実装しました。</p>
+            <pre>export async function syncUserFromAuth0(idToken: string) {
+  const userInfo = getUserFromAuth0Token(idToken)
+
+  // 既存ユーザーを更新、または新規ユーザーを作成
+  await prisma.user.upsert({
+    where: { supabaseId: userInfo.id },
+    update: { ...userData },
+    create: { ...userData },
+  })
+}</pre>
+
+            <h3>5. ミドルウェアの実装</h3>
+            <p><code>middleware.ts</code>で、セッション管理とアクセス制御を実装しました。</p>
+
+            <h3>フェーズ 3: エラーハンドリングと UI 改善</h3>
+
+            <h3>エラーページの作成</h3>
+            <p>認証エラー時にユーザーフレンドリーなエラーメッセージを表示するため、<code>src/app/auth/auth-code-error/page.tsx</code>を作成しました。</p>
+
+            <h3>環境変数の検証</h3>
+            <p>サーバー側の環境変数（<code>AUTH0_DOMAIN</code>、<code>AUTH0_CLIENT_ID</code>、<code>AUTH0_CLIENT_SECRET</code>）が設定されていない場合に、適切なエラーメッセージを表示するようにしました。</p>
+
+            <h3>フェーズ 4: 設定とドキュメント整備</h3>
+
+            <h3>設定ガイドの作成</h3>
+            <p>以下のドキュメントを作成し、設定手順を明確化しました：</p>
+            <ul>
+                <li><code>docs/AUTH_SETUP_GUIDE.md</code>: 認証設定の詳細ガイド</li>
+                <li><code>docs/THIRD_PARTY_AUTH_FLOW.md</code>: Third-Party Auth の仕組みとフロー</li>
+                <li><code>docs/ENV_VARIABLES.md</code>: 環境変数の説明</li>
+                <li><code>docs/CALLBACK_URL_SETUP.md</code>: コールバック URL の設定方法</li>
+            </ul>
+
+            <h2>学んだこと</h2>
+
+            <h3>1. Supabase Third-Party Auth の仕組み</h3>
+            <ul>
+                <li><strong>Third-Party Auth とは</strong>: Supabase Auth のユーザーとして登録されるのではなく、外部の JWT トークンを直接 Supabase API で使用する機能</li>
+                <li><strong>トークンの検証</strong>: Supabase が Auth0 の公開鍵を使用してトークンを検証し、<code>role: 'authenticated'</code> claim を確認</li>
+                <li><strong>ロールの割り当て</strong>: Postgres の<code>authenticated</code>ロールを割り当て、RLS ポリシーに基づいてデータにアクセス可能</li>
+            </ul>
+
+            <h3>2. 環境変数の管理</h3>
+            <ul>
+                <li><strong><code>.env</code>と<code>.env.local</code>の違い</strong>: <code>.env.local</code>が優先され、Git 管理から除外される</li>
+                <li><strong><code>NEXT_PUBLIC_</code>プレフィックス</strong>: クライアント側に公開されるため、機密情報を含めない</li>
+                <li><strong>サーバー側の環境変数</strong>: <code>NEXT_PUBLIC_</code>なしの変数はサーバー側でのみ使用可能</li>
+            </ul>
+
+            <h3>3. OAuth 2.0 フローの理解</h3>
+            <ul>
+                <li><strong>認証コードフロー</strong>: 認証コードを取得し、サーバー側でトークンに交換する方式</li>
+                <li><strong>コールバック URL</strong>: Auth0 と Supabase の両方で正しく設定する必要がある</li>
+                <li><strong>トークンの保存</strong>: クッキーに保存し、クライアント側で Supabase クライアントが使用できるようにする</li>
+            </ul>
+
+            <h3>4. JWT トークンの扱い</h3>
+            <ul>
+                <li><strong>ID トークンのデコード</strong>: クライアント側で JWT をデコードしてユーザー情報を取得</li>
+                <li><strong>トークンの有効期限</strong>: 1 時間に設定し、必要に応じてリフレッシュ</li>
+                <li><strong>セキュリティ</strong>: <code>httpOnly: false</code>でクライアント側から読み取れるようにする（Third-Party Auth の要件）</li>
+            </ul>
+
+            <h3>5. エラーハンドリングの重要性</h3>
+            <ul>
+                <li><strong>適切なエラーメッセージ</strong>: ユーザーに分かりやすいエラーメッセージを表示</li>
+                <li><strong>ログの記録</strong>: サーバー側でエラーをログに記録し、デバッグを容易にする</li>
+                <li><strong>フォールバック処理</strong>: エラーが発生してもアプリケーションがクラッシュしないようにする</li>
+            </ul>
+
+            <h2>今後の予定</h2>
+
+            <h3>短期（1-2 ヶ月）</h3>
+            <ol>
+                <li>
+                    <strong>セッション管理の改善</strong>
+                    <ul>
+                        <li>トークンのリフレッシュ機能の実装</li>
+                        <li>ログアウト機能の実装</li>
+                        <li>セッションタイムアウトの処理</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>ユーザープロフィール機能</strong>
+                    <ul>
+                        <li>プロフィール編集機能</li>
+                        <li>アバター画像のアップロード</li>
+                        <li>プロフィール公開設定</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>友達機能の実装</strong>
+                    <ul>
+                        <li>LINE 友達の取得</li>
+                        <li>友達一覧の表示</li>
+                        <li>友達への招待機能</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>中期（3-6 ヶ月）</h3>
+            <ol>
+                <li>
+                    <strong>グループ機能の拡張</strong>
+                    <ul>
+                        <li>グループ内での求人共有</li>
+                        <li>グループでの応募管理</li>
+                        <li>グループチャット機能</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>通知機能</strong>
+                    <ul>
+                        <li>LINE 通知の実装</li>
+                        <li>アプリ内通知</li>
+                        <li>メール通知</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>求人機能の拡張</strong>
+                    <ul>
+                        <li>求人検索・フィルタリング</li>
+                        <li>お気に入り機能</li>
+                        <li>応募履歴の管理</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>長期（6 ヶ月以上）</h3>
+            <ol>
+                <li>
+                    <strong>モバイルアプリの開発</strong>
+                    <ul>
+                        <li>React Native での実装</li>
+                        <li>LINE SDK の統合</li>
+                        <li>プッシュ通知</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>パフォーマンス最適化</strong>
+                    <ul>
+                        <li>データベースクエリの最適化</li>
+                        <li>キャッシュ戦略の実装</li>
+                        <li>CDN の活用</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>セキュリティ強化</strong>
+                    <ul>
+                        <li>セキュリティ監査</li>
+                        <li>脆弱性スキャン</li>
+                        <li>ペネトレーションテスト</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <footer class="footer">
+                <p>この実装を通じて、OAuth 2.0 フロー、Supabase Third-Party Auth、JWT トークンの扱いなど、認証システムの基礎を深く理解することができました。今後は、これらの知識を活かして、より高度な機能を実装していきます。</p>
+            </footer>
+        </main>
+    </div>
+
+</body>
+</html>

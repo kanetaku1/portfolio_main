@@ -12,6 +12,15 @@ const blogPosts = [
         thumbnail: 'img/DSC_0313.JPG',
         description: '地元の川辺で見つけた、心やすらぐ桜景色について書きました。',
         link: 'blog/2023_4_cherry-blossom.html'
+    },
+    {
+        filename: '2025_11_line-login-connect.md',
+        category: 'dev',
+        title: 'LINEログイン機能の実装完了',
+        date: '2025/11',
+        thumbnail: 'img/Jobsta-LINE.png',
+        description: 'Auth0経由のLINEログインをSupabase Third-Party Authと連携させ、ユーザー認証システムを構築しました。',
+        link: 'blog/2025_11_line-login-connect.html'
     }
 ];
 
