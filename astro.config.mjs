@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // 独自ドメインを取得したらここを差し替える
-  site: 'https://golchaworks.pages.dev',
+  site: 'https://portfolio.golchaworks.workers.dev',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   markdown: {

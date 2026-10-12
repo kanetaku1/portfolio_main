@@ -17,3 +17,6 @@ node_modules/
 # os
 .DS_Store
 Thumbs.db
+
+# 公開リポジトリに載せたくない下書き（指導教員の確認待ち）。確認が取れたらこの行を消す
+src/content/works/research-wheelchair.md

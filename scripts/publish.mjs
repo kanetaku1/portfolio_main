@@ -6,7 +6,7 @@
  *   2. プライバシーチェック
  *   3. 型チェックとビルド
  *   4. 変更の一覧を表示して確認
- *   5. src/content だけをコミットして push → Cloudflare Pages が自動で公開
+ *   5. src/content だけをコミットして push → Cloudflare Workers が自動で公開
  *
  * オプション
  *   --dry-run   コミットと push をしない（確認だけ）

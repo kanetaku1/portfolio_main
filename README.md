@@ -1,6 +1,6 @@
 # Golcha Works
 
-金子拓朗のポートフォリオ兼デジタルガーデン。Astro で作り、Cloudflare Pages で公開しています。
+金子拓朗のポートフォリオ兼デジタルガーデン。Astro で作り、Cloudflare Workers で公開しています（https://portfolio.golchaworks.workers.dev）。
 
 ## ふだんの使い方
 
@@ -40,16 +40,18 @@ npm run sync:vault     # Vault から同期だけ行う
 
 | 仕組み | 内容 |
 |---|---|
-| Cloudflare Pages | `main` への push で自動ビルド・公開。ブランチや PR ごとにプレビューURLが発行される |
+| Cloudflare Workers | `main` への push で自動ビルド・公開。ブランチごとにプレビューURL（`<ブランチ名>-portfolio.golchaworks.workers.dev`）が発行される |
 | プライバシーチェック | `.publish-denylist`（git 管理外）の語が含まれると公開を止める。金額やメールアドレスは警告 |
 | CI | push・PR ごとに型チェックとビルド（`.github/workflows/ci.yml`） |
 | Dependabot | 月1回、依存パッケージの更新を1つの PR にまとめる |
 | 旧URLの転送 | `npm run legacy:build` で `dist-legacy/` を作り、`gh-pages` ブランチに置く。名刺などに載っている `kanetaku1.github.io/portfolio_main/` を新サイトへ転送する |
 
-### Cloudflare Pages の設定値
+### Cloudflare Workers の設定値
 
-- Framework preset: Astro
+配信の設定は `wrangler.jsonc`（Worker 名 `portfolio`、`dist/` を静的配信）。ダッシュボードのビルド設定は次のとおり。
+
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Deploy command: `npx wrangler deploy`
+- Non-production branch deploy command: `npx wrangler preview`（`wrangler.jsonc` の `previews` が必要）
 - 環境変数: `PUBLIC_WEB3FORMS_KEY`
 - Node のバージョンは `.node-version` で指定
