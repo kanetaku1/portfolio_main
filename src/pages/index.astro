@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import EntryList from '@/components/EntryList.astro';
+import WorkCard from '@/components/WorkCard.astro';
+import Topics from '@/components/Topics.astro';
+import profile from '@/assets/profile.jpg';
+import { SITE } from '@/lib/site';
+import { getJournal, getNotes, getTopicMap, getWorks, getWriting, lastTouched } from '@/lib/content';
+import { formatDate } from '@/lib/format';
+
+const now = (await getEntry('pages', 'now'))!;
+const { Content: NowContent } = await render(now);
+
+const featured = (await getWorks()).filter((w) => w.data.featured).slice(0, 3);
+
+const recent = [...(await getWriting()), ...(await getNotes()), ...(await getJournal())]
+  .sort((a, b) => +lastTouched(b) - +lastTouched(a))
+  .slice(0, 6);
+
+const topicMap = await getTopicMap();
+const topTopics = [...topicMap.keys()].slice(0, 16);
+const counts = new Map([...topicMap].map(([t, es]) => [t, es.length]));
+---
+
+<Base>
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">{SITE.authorEn} / {SITE.name}</p>
+        <h1 class="hero-title">{SITE.tagline}</h1>
+        <p class="lede">
+          {SITE.author}です。情報技術と、それが人やまちにどう効くのかに関心があります。
+          ここには、作ってきたもの、書いたこと、学びの途中のメモ、週ごとの記録を置いています。
+          完成品の陳列棚というより、考えが育っていく庭のような場所です。
+        </p>
+        <p class="hero-links">
+          <a href="/about">私について →</a>
+          <a href="/works">作ったもの →</a>
+        </p>
+      </div>
+      <Image
+        class="hero-photo"
+        src={profile}
+        alt={`${SITE.author}の写真`}
+        widths={[160, 320]}
+        sizes="160px"
+        loading="eager"
+      />
+    </section>
+
+    <section class="section now-box">
+      <div class="section-head">
+        <h2>Now — いま取り組んでいること</h2>
+        <a href="/now">{formatDate(now.data.updated)} 更新</a>
+      </div>
+      <div class="prose now-prose">
+        <NowContent />
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Works</h2>
+        <a href="/works">すべて見る →</a>
+      </div>
+      <div class="work-grid">
+        {featured.map((work) => <WorkCard work={work} />)}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>最近育ったもの</h2>
+        <a href="/notes">Notes →</a>
+      </div>
+      {
+        recent.length > 0 ? (
+          <EntryList entries={recent} showKind />
+        ) : (
+          <div class="empty">
+            <p>まだ何も植わっていません。</p>
+          </div>
+        )
+      }
+    </section>
+
+    {
+      topTopics.length > 0 && (
+        <section class="section">
+          <div class="section-head">
+            <h2>関心の地図</h2>
+            <a href="/topics">Topics →</a>
+          </div>
+          <Topics topics={topTopics} counts={counts} />
+        </section>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem 3rem;
+    align-items: start;
+  }
+  .hero-title {
+    font-size: clamp(1.9rem, 5.5vw, 3rem);
+    line-height: 1.35;
+  }
+  .hero-photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin: 1.5rem 0 0;
+    font-size: 0.92rem;
+  }
+  @media (max-width: 40rem) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .hero-photo {
+      order: -1;
+      width: 96px;
+      height: 96px;
+    }
+  }
+  .now-prose {
+    font-size: 0.96rem;
+  }
+</style>

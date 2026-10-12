@@ -1,0 +1,33 @@
+---
+import { render } from 'astro:content';
+import Article from '@/layouts/Article.astro';
+import Backlinks from '@/components/Backlinks.astro';
+import { getNotes } from '@/lib/content';
+import { formatDate, STAGE } from '@/lib/format';
+
+export async function getStaticPaths() {
+  return (await getNotes()).map((note) => ({ params: { id: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { title, description, stage, created, updated, topics, draft } = note.data;
+const { Content } = await render(note);
+---
+
+<Article
+  title={title}
+  description={description}
+  eyebrow={{ href: '/notes', label: 'Notes' }}
+  topics={topics}
+  draft={draft}
+>
+  <Fragment slot="meta">
+    <span class="badge" title={STAGE[stage].note}>{STAGE[stage].icon} {STAGE[stage].label}</span>
+    <span>植えた日 {formatDate(created)}</span>
+    {updated && <span>最終手入れ {formatDate(updated)}</span>}
+  </Fragment>
+
+  <Content />
+
+  <Backlinks slot="after" entry={note} />
+</Article>

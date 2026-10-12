@@ -1,0 +1,21 @@
+---
+import Base from '@/layouts/Base.astro';
+import Topics from '@/components/Topics.astro';
+import { getTopicMap } from '@/lib/content';
+
+const topicMap = await getTopicMap();
+const counts = new Map([...topicMap].map(([t, es]) => [t, es.length]));
+---
+
+<Base title="Topics" description="作品・記事・メモ・記録を横断するトピック。関心の地図。">
+  <div class="wrap narrow">
+    <p class="eyebrow">Topics</p>
+    <h1 class="page-title">関心の地図</h1>
+    <p class="lede">
+      作品・記事・メモ・週の記録につけたトピックの一覧です。数字が大きいものほど、長く・繰り返し考えてきたことです。
+    </p>
+    <section class="section">
+      <Topics topics={[...topicMap.keys()]} counts={counts} />
+    </section>
+  </div>
+</Base>

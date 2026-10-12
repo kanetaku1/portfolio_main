@@ -1,0 +1,23 @@
+---
+interface Props {
+  topics: string[];
+  counts?: Map<string, number>;
+}
+
+const { topics, counts } = Astro.props;
+---
+
+{
+  topics.length > 0 && (
+    <ul class="chips">
+      {topics.map((t) => (
+        <li>
+          <a class="chip topic" href={`/topics/${encodeURIComponent(t)}`}>
+            {t}
+            {counts && <span class="count">{counts.get(t)}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

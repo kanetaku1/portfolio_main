@@ -1,0 +1,19 @@
+.claude
+
+# build
+dist/
+dist-legacy/
+.astro/
+
+# deps
+node_modules/
+
+# env
+.env
+.env.*
+!.env.example
+.publish-denylist
+
+# os
+.DS_Store
+Thumbs.db

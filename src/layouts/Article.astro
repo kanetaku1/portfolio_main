@@ -1,0 +1,32 @@
+---
+// writing / notes の個別ページ共通レイアウト
+import Base from '@/layouts/Base.astro';
+import Topics from '@/components/Topics.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow: { href: string; label: string };
+  topics: string[];
+  draft?: boolean;
+}
+
+const { title, description, eyebrow, topics, draft } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <article class="wrap narrow">
+    <p class="eyebrow"><a href={eyebrow.href}>{eyebrow.label}</a></p>
+    <h1 class="page-title">
+      {title}
+      {draft && <span class="draft-flag">draft</span>}
+    </h1>
+    {description && <p class="lede">{description}</p>}
+    <div class="meta"><slot name="meta" /></div>
+    <Topics topics={topics} />
+    <div class="prose section" style="margin-top:2.5rem">
+      <slot />
+    </div>
+    <slot name="after" />
+  </article>
+</Base>

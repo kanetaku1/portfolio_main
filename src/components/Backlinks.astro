@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getBacklinks, KIND_LABEL, urlOf } from '@/lib/content';
+
+interface Props {
+  entry: CollectionEntry<'writing' | 'notes' | 'journal'>;
+}
+
+const backlinks = await getBacklinks(Astro.props.entry);
+---
+
+{
+  backlinks.length > 0 && (
+    <aside class="aside-box">
+      <h2>このページを参照しているもの</h2>
+      <ul>
+        {backlinks.map((e) => (
+          <li>
+            <span class="entry-kind">{KIND_LABEL[e.collection]}</span>
+            <a href={urlOf(e)}>{e.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
