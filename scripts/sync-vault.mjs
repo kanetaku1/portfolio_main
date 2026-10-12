@@ -94,7 +94,10 @@ export async function syncVault() {
   for (const c of ['notes', 'writing', 'journal', 'assets']) {
     const dir = path.join(OUT, c);
     await mkdir(dir, { recursive: true });
-    for (const f of await readdir(dir)) await rm(path.join(dir, f), { recursive: true, force: true });
+    for (const f of await readdir(dir)) {
+      if (f === '.gitkeep') continue; // 空でもフォルダを git に残すための目印
+      await rm(path.join(dir, f), { recursive: true, force: true });
+    }
   }
   await rm(path.join(OUT, 'now.md'), { force: true });
 

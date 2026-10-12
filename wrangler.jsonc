@@ -7,5 +7,7 @@
     "directory": "./dist",
     // 存在しないパスは src/pages/404.astro を返す
     "not_found_handling": "404-page"
-  }
+  },
+  // ブランチ・PR ごとのプレビュー（非本番ブランチのデプロイコマンド `wrangler preview` が使う）
+  "previews": {}
 }
