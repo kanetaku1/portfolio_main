@@ -1,0 +1,40 @@
+---
+import Base from '@/layouts/Base.astro';
+import WorkCard from '@/components/WorkCard.astro';
+import { getWorks } from '@/lib/content';
+
+const works = await getWorks();
+const main = works.filter((w) => w.data.status !== 'archived');
+const archived = works.filter((w) => w.data.status === 'archived');
+---
+
+<Base title="Works" description="作ってきたもの。背景・判断・学びをケーススタディとしてまとめています。">
+  <div class="wrap">
+    <p class="eyebrow">Works</p>
+    <h1 class="page-title">作ったもの</h1>
+    <p class="lede">
+      技術スタックの一覧ではなく、なぜ作ったのか、どこで迷い、何を選んだのかを残しています。
+    </p>
+
+    <section class="section">
+      <div class="work-grid">
+        {main.map((work) => <WorkCard work={work} />)}
+      </div>
+    </section>
+
+    {
+      archived.length > 0 && (
+        <section class="section">
+          <div class="section-head">
+            <h2>Archive</h2>
+          </div>
+          <div class="work-grid">
+            {archived.map((work) => (
+              <WorkCard work={work} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</Base>

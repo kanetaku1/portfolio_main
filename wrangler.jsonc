@@ -1,0 +1,13 @@
+// Cloudflare Workers の設定。ビルド済みの静的ファイル（dist/）をそのまま配信する。
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // 存在しないパスは src/pages/404.astro を返す
+    "not_found_handling": "404-page"
+  },
+  // ブランチ・PR ごとのプレビュー（非本番ブランチのデプロイコマンド `wrangler preview` が使う）
+  "previews": {}
+}

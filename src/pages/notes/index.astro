@@ -1,0 +1,58 @@
+---
+import Base from '@/layouts/Base.astro';
+import EntryList from '@/components/EntryList.astro';
+import { getNotes } from '@/lib/content';
+import { STAGE } from '@/lib/format';
+
+const notes = await getNotes();
+---
+
+<Base title="Notes" description="学びの途中のメモ。Obsidian で育てている知識ノートのうち、公開できるもの。">
+  <div class="wrap narrow">
+    <p class="eyebrow">Notes — Digital Garden</p>
+    <h1 class="page-title">育てているメモ</h1>
+    <p class="lede">
+      完成した記事ではなく、学びの途中のメモです。書いたあとも少しずつ手を入れて育てていきます。
+      新しく手を入れた順に並んでいます。
+    </p>
+    <ul class="legend">
+      {
+        Object.values(STAGE).map((s) => (
+          <li>
+            {s.icon} <strong>{s.label}</strong> — {s.note}
+          </li>
+        ))
+      }
+    </ul>
+
+    <section class="section">
+      {
+        notes.length > 0 ? (
+          <EntryList entries={notes} />
+        ) : (
+          <div class="empty">
+            <p>🌱 まだ芽が出ていません。</p>
+            <p>Obsidian の Garden/ フォルダに置いたメモが、ここに並びます。</p>
+          </div>
+        )
+      }
+    </section>
+  </div>
+</Base>
+
+<style>
+  .legend {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    display: grid;
+    gap: 0.15rem;
+  }
+  .legend strong {
+    font-weight: 400;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+</style>

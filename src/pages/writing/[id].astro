@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import Article from '@/layouts/Article.astro';
+import Backlinks from '@/components/Backlinks.astro';
+import { getWriting } from '@/lib/content';
+import { formatDate, WRITING_KIND } from '@/lib/format';
+
+export async function getStaticPaths() {
+  return (await getWriting()).map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { title, description, date, updated, kind, cover, work, topics, draft } = post.data;
+const { Content } = await render(post);
+const relatedWork = work ? await getEntry('works', work) : undefined;
+---
+
+<Article
+  title={title}
+  description={description}
+  eyebrow={{ href: '/writing', label: `Writing / ${WRITING_KIND[kind]}` }}
+  topics={topics}
+  draft={draft}
+>
+  <Fragment slot="meta">
+    <time datetime={date.toISOString()}>{formatDate(date)}</time>
+    {updated && <span>更新 {formatDate(updated)}</span>}
+    {relatedWork && <a href={`/works/${relatedWork.id}`}>作品：{relatedWork.data.title}</a>}
+  </Fragment>
+
+  {cover && <Image src={cover} alt="" widths={[640, 1280]} sizes="(max-width: 44rem) 100vw, 40rem" />}
+  <Content />
+
+  <Backlinks slot="after" entry={post} />
+</Article>

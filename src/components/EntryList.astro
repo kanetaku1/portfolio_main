@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { KIND_LABEL, lastTouched, urlOf } from '@/lib/content';
+import { formatDate, STAGE } from '@/lib/format';
+
+type Entry = CollectionEntry<'writing' | 'notes' | 'journal'>;
+
+interface Props {
+  entries: Entry[];
+  /** コンテンツ種別のラベルを出すか（複数種別が混ざる一覧で使う） */
+  showKind?: boolean;
+}
+
+const { entries, showKind = false } = Astro.props;
+
+const describe = (e: Entry) => ('description' in e.data ? e.data.description : undefined);
+---
+
+<ul class="entries">
+  {
+    entries.map((e) => (
+      <li class="entry">
+        <time class="entry-date" datetime={lastTouched(e).toISOString()}>
+          {formatDate(lastTouched(e))}
+        </time>
+        <div>
+          {showKind && <span class="entry-kind">{KIND_LABEL[e.collection]}</span>}
+          {e.collection === 'notes' && (
+            <span title={STAGE[e.data.stage].label} aria-label={STAGE[e.data.stage].label}>
+              {STAGE[e.data.stage].icon}{' '}
+            </span>
+          )}
+          <a class="entry-title" href={urlOf(e)}>
+            {e.data.title}
+          </a>
+          {e.data.draft && <span class="draft-flag">draft</span>}
+          {describe(e) && <p class="entry-desc">{describe(e)}</p>}
+        </div>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import EntryList from '@/components/EntryList.astro';
+import WorkCard from '@/components/WorkCard.astro';
+import { getTopicMap } from '@/lib/content';
+
+export async function getStaticPaths() {
+  return [...(await getTopicMap())].map(([topic, entries]) => ({
+    params: { topic },
+    props: { topic, entries },
+  }));
+}
+
+const { topic, entries } = Astro.props;
+const works = entries.filter((e): e is CollectionEntry<'works'> => e.collection === 'works');
+const others = entries.filter(
+  (e): e is CollectionEntry<'writing' | 'notes' | 'journal'> => e.collection !== 'works',
+);
+---
+
+<Base title={`#${topic}`} description={`「${topic}」に関する作品・記事・メモ`}>
+  <div class="wrap">
+    <p class="eyebrow"><a href="/topics">Topics</a></p>
+    <h1 class="page-title">#{topic}</h1>
+    <p class="lede">{entries.length} 件</p>
+
+    {
+      works.length > 0 && (
+        <section class="section">
+          <div class="section-head">
+            <h2>Works</h2>
+          </div>
+          <div class="work-grid">
+            {works.map((work) => (
+              <WorkCard work={work} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      others.length > 0 && (
+        <section class="section narrow" style="padding:0">
+          <div class="section-head">
+            <h2>Writing / Notes / Journal</h2>
+          </div>
+          <EntryList entries={others} showKind />
+        </section>
+      )
+    }
+  </div>
+</Base>

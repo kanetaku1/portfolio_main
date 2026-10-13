@@ -1,0 +1,21 @@
+---
+import Base from '@/layouts/Base.astro';
+import EntryList from '@/components/EntryList.astro';
+import { getWriting } from '@/lib/content';
+
+const writing = await getWriting();
+---
+
+<Base title="Writing" description="書き上げた記事。旅のこと、技術のこと、考えたこと。">
+  <div class="wrap narrow">
+    <p class="eyebrow">Writing</p>
+    <h1 class="page-title">書いたもの</h1>
+    <p class="lede">
+      ひとつのまとまった文章として書き上げたもの。書きかけの思考は <a href="/notes">Notes</a> に、週ごとの記録は
+      <a href="/journal">Journal</a> にあります。
+    </p>
+    <section class="section">
+      <EntryList entries={writing} />
+    </section>
+  </div>
+</Base>

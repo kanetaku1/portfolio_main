@@ -1,0 +1,112 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import EntryList from '@/components/EntryList.astro';
+import Topics from '@/components/Topics.astro';
+import { getBacklinks, getWorks, getWritingForWork } from '@/lib/content';
+import { WORK_STATUS } from '@/lib/format';
+
+export async function getStaticPaths() {
+  return (await getWorks()).map((work) => ({ params: { id: work.id }, props: { work } }));
+}
+
+const { work } = Astro.props;
+const { title, summary, period, status, role, stack, links, cover, topics, draft } = work.data;
+const { Content } = await render(work);
+const diaries = await getWritingForWork(work.id);
+const mentions = (await getBacklinks(work)).filter(
+  (e) => !(e.collection === 'writing' && diaries.some((d) => d.id === e.id)),
+);
+---
+
+<Base title={title} description={summary}>
+  <article class="wrap narrow">
+    <p class="eyebrow"><a href="/works">Works</a> / {WORK_STATUS[status]}</p>
+    <h1 class="page-title">
+      {title}
+      {draft && <span class="draft-flag">draft</span>}
+    </h1>
+    <p class="lede">{summary}</p>
+
+    <dl class="facts">
+      <div><dt>期間</dt><dd>{period}</dd></div>
+      {role && <div><dt>役割</dt><dd>{role}</dd></div>}
+      {stack.length > 0 && <div><dt>技術</dt><dd>{stack.join(' / ')}</dd></div>}
+      {
+        (links.github || links.demo) && (
+          <div>
+            <dt>リンク</dt>
+            <dd class="links">
+              {links.github && <a href={links.github} target="_blank" rel="noopener">GitHub ↗</a>}
+              {links.demo && <a href={links.demo} target="_blank" rel="noopener">サイト ↗</a>}
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+    <Topics topics={topics} />
+
+    {cover && <Image class="cover" src={cover} alt="" widths={[640, 1280]} sizes="(max-width: 44rem) 100vw, 40rem" />}
+
+    <div class="prose section" style="margin-top:2.5rem">
+      <Content />
+    </div>
+
+    {
+      diaries.length > 0 && (
+        <section class="section">
+          <div class="section-head">
+            <h2>この作品ができるまで</h2>
+          </div>
+          <EntryList entries={diaries} />
+        </section>
+      )
+    }
+
+    {
+      mentions.length > 0 && (
+        <aside class="aside-box">
+          <h2>この作品に触れているもの</h2>
+          <ul>
+            {mentions.map((e) => (
+              <li>
+                <a href={`/${e.collection}/${e.id}`}>{e.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .facts {
+    display: grid;
+    gap: 0.4rem;
+    margin: 1.75rem 0 0;
+    font-size: 0.9rem;
+  }
+  .facts div {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1rem;
+  }
+  .facts dt {
+    color: var(--ink-3);
+  }
+  .facts dd {
+    margin: 0;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+  }
+  .cover {
+    margin-top: 2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+</style>

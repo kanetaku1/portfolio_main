@@ -1,0 +1,93 @@
+---
+import { render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Topics from '@/components/Topics.astro';
+import { getJournal } from '@/lib/content';
+import { formatDate } from '@/lib/format';
+
+const weeks = await Promise.all(
+  (await getJournal()).map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Base title="Journal" description="週ごとの記録。その週に考えたことを数行だけ残しています。">
+  <div class="wrap narrow">
+    <p class="eyebrow">Journal</p>
+    <h1 class="page-title">週ごとの記録</h1>
+    <p class="lede">
+      毎週の振り返りのうち、公開してもよい数行だけをここに残しています。出来事ではなく、その週に考えたことや変わったことを。
+    </p>
+
+    <section class="section">
+      {
+        weeks.length > 0 ? (
+          <ol class="timeline">
+            {weeks.map(({ entry, Content }) => (
+              <li id={entry.data.week}>
+                <header>
+                  <a class="week" href={`#${entry.data.week}`}>
+                    {entry.data.week}
+                  </a>
+                  <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)} 〜</time>
+                  {entry.data.draft && <span class="draft-flag">draft</span>}
+                </header>
+                <h2>{entry.data.title}</h2>
+                <div class="prose">
+                  <Content />
+                </div>
+                <Topics topics={entry.data.topics} />
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div class="empty">
+            <p>まだ記録がありません。</p>
+            <p>Obsidian の Weekly/ にある週次ノートの「公開」欄が、ここに並びます。</p>
+          </div>
+        )
+      }
+    </section>
+  </div>
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.4rem;
+    border-left: 1px solid var(--line);
+  }
+  .timeline > li {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+  .timeline > li::before {
+    content: '';
+    position: absolute;
+    left: calc(-1.4rem - 4.5px);
+    top: 0.55rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-3);
+  }
+  .week {
+    text-decoration: none;
+    color: var(--accent);
+  }
+  .timeline h2 {
+    font-size: 1.1rem;
+    margin: 0.3rem 0 0.75rem;
+  }
+  .timeline .prose {
+    font-size: 0.96rem;
+  }
+</style>

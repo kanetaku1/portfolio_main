@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { WORK_STATUS } from '@/lib/format';
+
+interface Props {
+  work: CollectionEntry<'works'>;
+}
+
+const { work } = Astro.props;
+const { title, summary, cover, period, status, stack, draft } = work.data;
+---
+
+<a class="work-card" href={`/works/${work.id}`}>
+  <div class="work-cover">
+    {
+      cover ? (
+        <Image src={cover} alt="" widths={[480, 800]} sizes="(max-width: 40rem) 100vw, 20rem" />
+      ) : (
+        <span class="initial" aria-hidden="true">
+          {title.slice(0, 1)}
+        </span>
+      )
+    }
+  </div>
+  <div class="work-body">
+    <h3>
+      {title}
+      {draft && <span class="draft-flag">draft</span>}
+    </h3>
+    <p>{summary}</p>
+    <ul class="chips">
+      {stack.slice(0, 4).map((s) => <li class="chip">{s}</li>)}
+    </ul>
+    <div class="work-foot">
+      <span>{period}</span>
+      <span>{WORK_STATUS[status]}</span>
+    </div>
+  </div>
+</a>

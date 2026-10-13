@@ -1,0 +1,28 @@
+---
+// /about と /now — src/content/pages/*.md をそのまま描画する
+import { getCollection, render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import { formatDate } from '@/lib/format';
+
+export async function getStaticPaths() {
+  return (await getCollection('pages')).map((page) => ({
+    params: { page: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<Base title={page.data.title} description={page.data.description}>
+  <article class="wrap narrow">
+    <p class="eyebrow">{page.id}</p>
+    <h1 class="page-title">{page.data.title}</h1>
+    {page.data.description && <p class="lede">{page.data.description}</p>}
+    <p class="meta">最終更新 {formatDate(page.data.updated)}</p>
+    <div class="prose section" style="margin-top:2.5rem">
+      <Content />
+    </div>
+  </article>
+</Base>
