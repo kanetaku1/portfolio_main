@@ -10,8 +10,8 @@ import { SITE } from '@/lib/site';
 import { getJournal, getNotes, getTopicMap, getWorks, getWriting, lastTouched } from '@/lib/content';
 import { formatDate } from '@/lib/format';
 
-const now = (await getEntry('pages', 'now'))!;
-const { Content: NowContent } = await render(now);
+const now = await getEntry('pages', 'now');
+const NowContent = now ? (await render(now)).Content : undefined;
 
 const featured = (await getWorks()).filter((w) => w.data.featured).slice(0, 3);
 
@@ -50,15 +50,17 @@ const counts = new Map([...topicMap].map(([t, es]) => [t, es.length]));
       />
     </section>
 
-    <section class="section now-box">
-      <div class="section-head">
-        <h2>Now — いま取り組んでいること</h2>
-        <a href="/now">{formatDate(now.data.updated)} 更新</a>
-      </div>
-      <div class="prose now-prose">
-        <NowContent />
-      </div>
-    </section>
+    {now && NowContent && (
+      <section class="section now-box">
+        <div class="section-head">
+          <h2>Now — いま取り組んでいること</h2>
+          <a href="/now">{formatDate(now.data.updated)} 更新</a>
+        </div>
+        <div class="prose now-prose">
+          <NowContent />
+        </div>
+      </section>
+    )}
 
     <section class="section">
       <div class="section-head">

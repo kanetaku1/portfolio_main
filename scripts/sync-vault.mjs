@@ -27,9 +27,9 @@ import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const OUT = path.join(ROOT, 'src/content/vault');
-export const VAULT = path.resolve(
-  process.env.VAULT_PATH ?? readEnvFile().VAULT_PATH ?? 'D:/Desktop/obsidian_brain',
-);
+const NOW_FILE = 'Now.md';
+const configuredVault = process.env.VAULT_PATH ?? readEnvFile().VAULT_PATH ?? 'D:/Desktop/obsidian_brain';
+export const VAULT = resolveVault(configuredVault);
 
 const SOURCES = [
   { dir: 'Garden', collection: 'notes' },
@@ -38,8 +38,6 @@ const SOURCES = [
 ];
 const PUBLIC_HEADING = /^##\s*公開\s*$/m;
 const IMAGE_EXT = /\.(png|jpe?g|gif|webp|avif|svg)$/i;
-
-const NOW_FILE = 'Now.md';
 
 let warnings = [];
 
@@ -346,6 +344,17 @@ async function replaceAsync(str, re, fn) {
   }
   parts.push(str.slice(last));
   return parts.join('');
+}
+
+function resolveVault(configured) {
+  const root = path.resolve(configured);
+  const candidates = [root, path.join(root, 'obsidian_brain')];
+  return candidates.find((candidate) =>
+    existsSync(path.join(candidate, NOW_FILE)) ||
+    existsSync(path.join(candidate, 'Garden')) ||
+    existsSync(path.join(candidate, 'Weekly')) ||
+    existsSync(path.join(candidate, 'Writing'))
+  ) ?? root;
 }
 
 function readEnvFile() {
